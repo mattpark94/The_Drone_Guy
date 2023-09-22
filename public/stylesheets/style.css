@@ -1,6 +1,6 @@
  
 .header {
-    background-image: url("C:/Users/Matt_Park_Pavilion/Documents/Future Skills/Final Project/The_Drone_Guy/public/images/drone_1.jpg");;
+    background-image: url('../images/drone_1.jpg');
     text-align: center;
     background-size: 100% auto;
     background-repeat: no-repeat;
