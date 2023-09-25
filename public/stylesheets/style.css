@@ -1,4 +1,10 @@
  
+
+* { 
+    margin: 0;
+    padding: 0;
+}
+
 .header {
     background-image: url('../images/drone_1.jpg');
     text-align: center;
@@ -54,4 +60,11 @@ h2 {
 
 P1 {
     color: rgb(71, 130, 165);
+}
+
+form { 
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
 }

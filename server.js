@@ -23,6 +23,14 @@ app.get('/about', function(req, res, next) {
   res.render('about', { title: 'About' });
 });
 
+app.get('/book', function(req, res, next) {
+  res.render('book', { title: 'Book' });
+});
+
+app.get('/services', function(req, res, next) {
+  res.render('services', { title: 'Services' });
+});
+
 app.get('/contact', function(req, res, next) {
   res.render('contact', { title: 'Contact' });
 });
