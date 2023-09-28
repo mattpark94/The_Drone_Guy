@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
-var db = require('./dbConfig');
+var mysql = require('mysql');
+var connection = require('./drone_dbConfig');
 
 var app = express();
 
@@ -12,6 +13,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+//dbRead page displays the retrieved data in an HTML table
+app.get('/drone_dbRead',function(req, res) {
+	connection.query("SELECT * FROM drone_users", function (err, result) {
+		if (err) throw err;
+		console.log(result);
+		res.render('drone_dbRead', { title: 'xyz', userData: result}) ;
+		});
+	});
 
 // Define the route for the home page
 app.get('/', function(req, res, next) {
@@ -38,6 +48,24 @@ app.get('/contact', function(req, res, next) {
 app.get('/login', function(req, res, next) {
   res.render('login', { title: 'Login' });
 });
+
+app.get('/users_view', function(req, res, next) {
+  res.render('users_view', { title: 'users_view' });
+});
+
+// Code to log into the website thingie
+
+app.post('/', function(req, res) {
+  var abcd = req.body.id;
+  var bcde = req.body.email;
+  var xyz = req.body.password;
+  var sql = `INSERT INTO users(id,email,password) VALUES ("${abcd}", "${bcde}", "${xyz}")`;
+  connection.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("1 record inserted");
+  });
+  return res.render('index', {errormessage: 'insert data successfully'});
+}) ;
 
 app.listen(3000, function () {
   console.log('Node app is running on port 3000');
