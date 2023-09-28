@@ -15,11 +15,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //dbRead page displays the retrieved data in an HTML table
-app.get('/drone_dbRead',function(req, res) {
+app.get('/users_view',function(req, res) {
 	connection.query("SELECT * FROM drone_users", function (err, result) {
 		if (err) throw err;
 		console.log(result);
-		res.render('drone_dbRead', { title: 'xyz', userData: result}) ;
+		res.render('users_view', { title: 'xyz', userData: result}) ;
 		});
 	});
 
@@ -49,9 +49,7 @@ app.get('/login', function(req, res, next) {
   res.render('login', { title: 'Login' });
 });
 
-app.get('/users_view', function(req, res, next) {
-  res.render('users_view', { title: 'users_view' });
-});
+
 
 // Code to log into the website thingie
 

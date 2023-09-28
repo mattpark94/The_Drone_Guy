@@ -20,29 +20,25 @@
     <div class="header"></div>
     
     <h1>Users Page</h1>
-
+    
     <table class="table table-hover">
-        <tr>
-            <th>Id</th>
-            <th>Email</th>
-            <th>Password</th>
-        </tr>
-        
-        <% if (typeof drone_usersData !== 'undefined' && userData.length > 0) { %>
-            <% var i = 1; %>
-            <% drone_usersData.forEach(function(data) { %>
-                <tr>
-                    <td><%= data.id %></td>
-                    <td><%= data.email %></td>
-                    <td><%= data.password %></td>
-                </tr>
-                <% i++; %>
-            <% }); %>
-        <% } else { %>
-            <tr>
-                <td colspan="3">No Data Found</td>
-            </tr>
-        <% } %>
-    </table>
+		<tr>
+			<th>Id</th>
+			<th>Name</th>
+			<th>Email</th>
+		</tr>
+		
+		<% if(userData.length !=0) { var i=1; userData.forEach(function(data) {
+		%>
+		<tr>
+			<td><%=data.id %></td>
+			<td><%=data.name %></td>
+			<td><%=data.email %></td>
+		</tr>
+		<% i++; }) %> <% } else { %>
+		<tr>
+			<td colspan="7"> No Data Found </td>
+		</tr>
+		<% } %>
 </body>
 </html>
