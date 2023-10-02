@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Book or Login to The Drone Guy</title>
+    <title>View Users</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
     <meta name="description" content="Learn about The Drone Guy and our services.">
 </head>
@@ -11,9 +11,11 @@
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/services">Services</a></li>
-            <li><a href="/book">Book</a></li>
             <li><a href="/contact">Contact</a></li>
-            <li style="float:right"><a class="active" href="/login">Login</a></li>
+            <li style="float:right"><a href="/logout">Logout</a></li>
+            <li style="float:right"><a href="/user_book">Book</a></li>
+            <li style="float:right"><a href="/user_landing">Profile</a></li>
+            <li style="float:right"><a class = "active" href="/user_view">Users View</a></li>
         </ul>
     </div>
 
@@ -24,16 +26,20 @@
     <table class="table table-hover">
 		<tr>
 			<th>Id</th>
-			<th>Name</th>
-			<th>Email</th>
+			<th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+			<th>Password</th>
 		</tr>
 		
 		<% if(userData.length !=0) { var i=1; userData.forEach(function(data) {
 		%>
 		<tr>
 			<td><%=data.id %></td>
-			<td><%=data.name %></td>
+            <td><%=data.first_name %></td>
+            <td><%=data.last_name %></td>
 			<td><%=data.email %></td>
+			<td><%=data.password %></td>
 		</tr>
 		<% i++; }) %> <% } else { %>
 		<tr>
