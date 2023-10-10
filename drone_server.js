@@ -1,7 +1,9 @@
-var express = require('express');
-var path = require('path');
-var mysql = require('mysql');
-var connection = require('./drone_dbConfig');
+// using const instead of var - cannot be changed
+
+const express = require('express');
+const path = require('path');
+const mysql = require('mysql'); 
+const connection = require('./drone_dbConfig');
 
 var app = express();
 
@@ -14,38 +16,14 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Define the route for the Website Pages
-app.get('/', function(req, res, next) {
-	res.render('home', { title: 'Home' });
-  });
-  
-  app.get('/about', function(req, res, next) {
-	res.render('about', { title: 'About' });
-  });
-  
-  app.get('/user_book', function(req, res, next) {
-	res.render('user_book', { title: 'Book' });
-  });
-  
-  app.get('/services', function(req, res, next) {
-	res.render('services', { title: 'Services' });
-  });
-  
-  app.get('/contact', function(req, res, next) {
-	res.render('contact', { title: 'Contact' });
-  });
-  
-  app.get('/login', function(req, res, next) {
-	res.render('login', { title: 'Login' });
-  });
 
-  app.get('/register', function(req, res, next) {
-	res.render('register', { title: 'Register' });
-  });
+// Define routes to the router folder and pages file. 
 
-  app.get('/user_landing', function(req, res, next) {
-	res.render('user_landing', { title: 'User Landing' });
-  });
+app.use('/', require('./routes/pages'));
+
+// Define routes for authorised pages. 
+// app.use('/auth', require('./routes.auth'));
+
 
 // Push Register form to Database 
 app.post('/register', function(req, res) {
@@ -55,9 +33,9 @@ app.post('/register', function(req, res) {
     var password = req.body.password;
 
  // Check if the user with the provided email already exists
-    var checkQuery = `SELECT * FROM drone_users WHERE email = "${email}"`;
+var checkQuery = `SELECT * FROM drone_users WHERE email = "${email}"`;
 
-    connection.query(checkQuery, function (err, results) {
+connection.query(checkQuery, function (err, results) {
         if (err) throw err;
 
         if (results.length > 0) {
@@ -84,9 +62,20 @@ app.get('/user_view',function(req, res) {
 	connection.query("SELECT * FROM drone_users", function (err, result) {
 		if (err) throw err;
 		console.log(result);
-		res.render('user_view', { title: 'xyz', userData: result}) ;
+		res.render('user_view', { title: 'xyz', data: result}) ;
 		});
 	});
+
+// users_book page - trying to import the data into a table 
+app.get('/user_book', function(req, res) {
+    connection.query("SELECT * FROM drone_booking", function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.render('user_book', { title: 'xyz', data: result });
+    });
+});
+
+
 
 // Login Page 
 
@@ -109,7 +98,7 @@ app.post('/login', function(req, res) {
     });
 });
 
-
+// 
 app.listen(3000, function () {
   console.log('Node app is running on port 3000');
 });

@@ -1,9 +1,13 @@
  
+/* Website fill width */ 
+
 
 * { 
     margin: 0;
     padding: 0;
 }
+
+/* Nav Bar Style*/ 
 
 .header {
     background-image: url('../images/drone_1.jpg');
@@ -48,6 +52,7 @@ li a {
     text-decoration: none;
 }
 
+/* Body Style*/ 
 
 h1 {
     color: rgb(71, 130, 165);
@@ -62,8 +67,8 @@ P1 {
     color: rgb(71, 130, 165);
 }
 
+/* form CSS 
 
-/* Bordered form */
 form {
     border: 3px solid #f1f1f1;
   }
@@ -80,7 +85,7 @@ form {
   
   /* Set a style for all buttons */
   button {
-    background-color: #04AA6D;
+    background-color: #6db4e4;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -116,12 +121,7 @@ form {
   .container {
     padding: 16px;
   }
-  
-  /* The "Forgot password" text */
-  span.psw {
-    float: right;
-    padding-top: 16px;
-  }
+
   
   /* Change styles for span and cancel button on extra small screens */
   @media screen and (max-width: 300px) {
@@ -132,4 +132,33 @@ form {
     .cancelbtn {
       width: 100%;
     }
+  }
+
+
+  /* booking table style*/ 
+
+  #booking {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    position: middle;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  #booking td, #booking th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #booking tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #booking tr:hover {background-color: #ddd;}
+  
+  #booking th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
   }

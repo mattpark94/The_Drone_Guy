@@ -13,8 +13,8 @@
             <li><a href="/services">Services</a></li>
             <li><a href="/contact">Contact</a></li>
             <li style="float:right"><a href="/logout">Logout</a></li>
-            <li style="float:right"><a href="/book">Book</a></li>
-            <li style="float:right"><a class = "active" href="/user_landing">Profile</a></li>
+            <li style="float:right"><a class = "active" href="/user_book">Book</a></li>
+            <li style="float:right"><a href="/user_landing">Profile</a></li>
             <li style="float:right"><a href="/user_view">Users View</a></li>
 
 
@@ -23,11 +23,28 @@
 
     <div class="header"></div>
     
-    <h1>About The Drone Guy</h1>
-    <h2>Learn About Our Services</h2>
+    <h1>Booking Page</h1>
 
-    <p>
-        Welcome to The Drone Guy, where we specialize in drone services and technology. Our mission is to provide you with the best drone solutions.
-    </p>
+    <table id = "booking">
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Availability</th> 
+            <th>Book</th>
+        </tr>
+        
+        <% data.forEach(function(row) { %>
+            <tr>
+                <td><%= row.date %></td>
+                <td><%= row.time %></td>
+                <td><%= row.available %></td>
+                <td><button>Hi </button></td>
+            </tr>
+        <% }); %>
+           
+    </table>
+
+
+    
 </body>
 </html>
