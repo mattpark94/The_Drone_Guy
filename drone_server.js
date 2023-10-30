@@ -10,19 +10,15 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 // Define routes to the router folder and pages file. 
-
 app.use('/', require('./routes/pages'));
 
 // Define routes for authorised pages. 
-// app.use('/auth', require('./routes.auth'));
+// app.use('/auth', require('./routes.auth'?));
 
 
 // Push Register form to Database 
@@ -32,14 +28,13 @@ app.post('/register', function(req, res) {
     var email = req.body.email;
     var password = req.body.password;
 
- // Check if the user with the provided email already exists
+    // Check if the user with the provided email already exists
 var checkQuery = `SELECT * FROM drone_users WHERE email = "${email}"`;
 
 connection.query(checkQuery, function (err, results) {
         if (err) throw err;
-
         if (results.length > 0) {
- // User with the same email already exists
+    // User with the same email already exists
             console.log("User with this email already exists.");
             res.render('registration_failure', { title: 'Registration Failure', message: 'User with this email already exists.' });
         } else {
@@ -75,7 +70,13 @@ app.get('/user_book', function(req, res) {
     });
 });
 
-
+app.get('/admin_book', function(req, res) {
+    connection.query("SELECT * FROM drone_booking", function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.render('admin_book', { title: 'xyz', data: result });
+    });
+});
 
 // Login Page 
 
@@ -98,7 +99,7 @@ app.post('/login', function(req, res) {
     });
 });
 
-// 
+
 app.listen(3000, function () {
   console.log('Node app is running on port 3000');
 });

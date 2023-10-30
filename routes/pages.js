@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 
-
+// Standard Pages 
  router.get('/', function(req, res, next) {
     res.render('home', { title: 'Home' });
       });
@@ -26,10 +26,17 @@ router.get('/login', function(req, res, next) {
 router.get('/register', function(req, res, next) {
     res.render('register', { title: 'Register' });
       });
+
+// Admin Pages 
+
     
-router.get('/user_landing', function(req, res, next) {
-     res.render('user_landing', { title: 'User Landing' });
+router.get('/admin_book', function(req, res, next) {
+     res.render('admin_book', { title: 'Admin Book' });
       });
 
+// User Pages
+router.get('/user_landing', function(req, res, next) {
+    res.render('user_landing', { title: 'User Landing' });
+       });
 
 module.exports = router;

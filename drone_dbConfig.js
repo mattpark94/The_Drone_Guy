@@ -8,8 +8,11 @@ var conn = mysql.createConnection({
 }); 
 
 conn.connect(function(err) {
-	if (err) throw err;
-	console.log('Database is connected successfully !');
+	if (err) {
+        console.error('Error connecting to the database:', err);
+    } else {
+        console.log('Database is connected successfully!');
+    }
 });
 
 module.exports = conn;
