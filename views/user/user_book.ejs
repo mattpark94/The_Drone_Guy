@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>About The Drone Guy</title>
+    <title>Booking The Drone Guy</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
     <meta name="description" content="Learn about The Drone Guy and our services.">
 </head>
@@ -14,37 +14,31 @@
             <li><a href="/contact">Contact</a></li>
             <li style="float:right"><a href="/logout">Logout</a></li>
             <li style="float:right"><a class = "active" href="/user_book">Book</a></li>
-            <li style="float:right"><a href="/user_landing">Profile</a></li>
-            <li style="float:right"><a href="/user_view">Users View</a></li>
+            <li style="float:right"><a href="/user/user_landing">Profile</a></li>
 
 
         </ul>
     </div>
-
-    <div class="header"></div>
-    
     <h1>Booking Page</h1>
-
-    <table id = "booking">
+    <table id="booking">
         <tr>
             <th>Date</th>
             <th>Time</th>
-            <th>Availability</th> 
             <th>Book</th>
         </tr>
-        
         <% data.forEach(function(row) { %>
             <tr>
-                <td><%= row.date %></td>
-                <td><%= row.time %></td>
-                <td><%= row.available %></td>
-                <td><button>Hi </button></td>
+                <td><%= row.booking_date %></td>
+                <td><%= row.booking_time %></td>
+                <td>
+                    <form action="/user/book_drone" method="post">
+                        <input type="hidden" name="booking_date" value="<%= row.booking_date %>">
+                        <input type="hidden" name="booking_time" value="<%= row.booking_time %>">
+                        <button type="submit">Book</button>
+                    </form>
+                </td>
             </tr>
         <% }); %>
-           
     </table>
-
-
-    
 </body>
 </html>
