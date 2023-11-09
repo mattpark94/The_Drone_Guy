@@ -4,6 +4,7 @@
     <title>Booking The Drone Guy</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
     <meta name="description" content="Learn about The Drone Guy and our services.">
+
 </head>
 <body>
     <div>
@@ -19,6 +20,9 @@
 
         </ul>
     </div>
+
+    <div class="header"></div>
+
     <h1>Booking Page</h1>
     <table id="booking">
         <tr>
@@ -34,6 +38,8 @@
                     <form action="/user/book_drone" method="post">
                         <input type="hidden" name="booking_date" value="<%= row.booking_date %>">
                         <input type="hidden" name="booking_time" value="<%= row.booking_time %>">
+                        <input type="hidden" name="user_id" value="<%= user.user_id %>">
+                        <input type="hidden" name="booking_status" value="booked">
                         <button type="submit">Book</button>
                     </form>
                 </td>

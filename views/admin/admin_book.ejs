@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>About The Drone Guy</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Booking Management</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-    <meta name="description" content="Learn about The Drone Guy and our services.">
 </head>
 <body>
     <div>
@@ -13,55 +14,103 @@
             <li><a href="/services">Services</a></li>
             <li><a href="/contact">Contact</a></li>
             <li style="float:right"><a href="/logout">Logout</a></li>
-            <li style="float:right"><a class = "active" href="/admin/admin_book">Admin Book</a></li>
+            <li style="float:right"><a class="active" href="/admin/admin_book">Admin Book</a></li>
             <li style="float:right"><a href="/admin/admin_landing">Admin Profile</a></li>
             <li style="float:right"><a href="/admin/admin_users">Admin Users</a></li>
         </ul>
     </div>
 
     <div class="header"></div>
-    
+
     <h1>Admin Booking Management Page</h1>
 
     <h2>Available Bookings</h2>
 
-    <table id = "booking">
+    <table id="booking">
         <tr>
+            <th>Booking Id</th>
             <th>Date</th>
             <th>Time</th>
+            <th>Booking Status</th>
             <th>Duration (Hours)</th>
+            <th>Booked User Id</th>
+           
+            <th>Delete</th>
         </tr>
-        
+
         <% data.forEach(function(row) { %>
             <tr>
+                <td><%= row.booking_id %></td>
                 <td><%= row.booking_date %></td>
                 <td><%= row.booking_time %></td>
-                <td><%= row.booking_date %></td>
+                <td><%= row.booking_status %></td>
+                <td><%= row.booking_duration %></td>
+                <td><%= row.booking_user_id %></td>
+                
+                <td>
+                    <form action="/admin/delete-booking" method="post">
+                        <input type="hidden" name="booking_id" value="<%= row.booking_id %>">
+                        <button class="delete-button" data-booking-id="<%= row.booking_id %>">Delete</button>
+                    </form>                
+                </td>
             </tr>
         <% }); %>
-           
     </table>
+
+    <h2>Edit a Booking</h2>
+
+<form action="/admin/edit-booking" method="post">
+    <div class="container">
+        <label for="id"><b>Booking Id</b></label>
+        <input type="number" placeholder="Select the booking Id" name="booking_id" required>
+
+
+        <label for="date"><b>Date</b></label>
+         <input type="date" placeholder="Enter the Date" name="date" required>
+
+        <label for="time"><b>Time</b></label>
+        <input type="time" placeholder="Enter the Start Time" name="time" required>
+           
+        <label for="status"><b>Booking Status</b></label>
+        <select name="booking_status" required>
+            <option value="available">Available</option>
+            <option value="booked">Booked</option>
+            </select>
+
+            <label for="duration"><b>Duration</b></label>
+            <input type="number" placeholder="Enter duration" name="duration" required>
+
+            <button type="submit">Update Booking</button>
+        </div>
+    </form> 
 
     <h2>Make a New Booking</h2>
 
     <form action="/admin/admin_book" method="post">
-
-      
         <div class="container">
-          <label for="date"><b>Date</b></label>
-          <input type="date" placeholder="Enter the Date" name="date" required>
+            <label for="date"><b>Date</b></label>
+            <input type="date" placeholder="Enter the Date" name="date" required>
 
-          <label for="time"><b>Time</b></label>
-          <input type="time" placeholder="Enter the Start Time" name="time" required>
+            <label for="time"><b>Time</b></label>
+            <input type="time" placeholder="Enter the Start Time" name="time" required>
 
-          <label for="duration"><b>Duration</b></label>
-          <input type="number" placeholder="Enter duration" name="duration" required>
-      
-          <button type="submit">Register</button>
+            <!-- Update the name attribute to match the server route -->
+            <label for="status"><b>Booking Status</b></label>
+            <select name="booking_status" required>
+                <option value="available">Available</option>
+                <option value="booked">Booked</option>
+            </select>
 
-          </div>
-          
-      </form>
+            <label for="duration"><b>Duration</b></label>
+            <input type="number" placeholder="Enter duration" name="duration" required>
 
+            <button type="submit">Add Booking</button>
+        </div>
+    </form> 
+
+   
+
+    
+  
 </body>
 </html>
