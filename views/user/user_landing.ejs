@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>About The Drone Guy</title>
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
     <meta name="description" content="Learn about The Drone Guy and our services.">
 </head>
+
 <body>
     <div>
         <ul>
@@ -14,56 +16,31 @@
             <li><a href="/contact">Contact</a></li>
             <li style="float:right"><a href="/logout">Logout</a></li>
             <li style="float:right"><a href="/user/user_book">Book</a></li>
-            <li style="float:right"><a class = "active" href="/user/user_landing">Profile</a></li>
-            
-
-
+            <li style="float:right"><a class="active" href="/user/user_landing">Profile</a></li>
         </ul>
     </div>
 
     <div class="header"></div>
-    
+
     <h1>User Landing Page</h1>
 
-
     <h1>User Details</h1>
-
-    <table>
+    <table id="profile">
+        <!-- Display user details -->
         <tr>
             <th>User ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
-           
         </tr>
         <tr>
             <td><%= user.user_id %></td>
             <td><%= user.user_first_name %></td>
             <td><%= user.user_last_name %></td>
             <td><%= user.user_email %></td>
-           
         </tr>
     </table>
-   
-    <h2> Your Bookings</h1>
 
-    <table>
-        <tr>
-            <th>Booking ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Date</th>
-            <th>Time</th>
-           
-        </tr>
-        <tr>
-            <td><%= user.booked_id %></td>
-            <td><%= user.booked_date %></td>
-            <td><%= user.booked_time %></td>
-                     
-        </tr>
-    </table>
-    
 </body>
+
 </html>
