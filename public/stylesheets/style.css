@@ -1,7 +1,6 @@
  
 /* Website fill width */ 
 
-
 * { 
     margin: 0;
     padding: 0;
@@ -62,9 +61,11 @@ h2 {
     color: rgb(71, 130, 165);
 }
 
-P1 {
+P {
     color: rgb(71, 130, 165);
 }
+
+
 
 /* form CSS 
 
@@ -100,6 +101,32 @@ form {
     box-sizing: border-box;
   }
   
+  input[type=number], input[type=number] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+
+  label [for="status"] {
+    display: block;
+    margin-bottom: 8px;
+    color: rgb(71, 130, 165);
+  }
+  
+  select[name="booking_status"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background-color: white; 
+    color: rgb(71, 130, 165);
+  }
+
   /* Set a style for all buttons */
   button {
     background-color: #6db4e4;
@@ -152,93 +179,58 @@ form {
   }
 
 
-  /* booking table style*/ 
 
-  #booking {
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    position: middle;
-    width: 75%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  #booking td, #booking th {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
-  
-  #booking tr:nth-child(even){background-color: #f2f2f2;}
-  
-  #booking tr:hover {background-color: #ddd;}
-  
-  #booking th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #14608b;
-    color: white;
-  }
 
-    /* admin table style*/ 
+/* standard table style */
+#standard {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  position: middle;
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-    #booking {
-      font-family: Arial, Helvetica, sans-serif;
-      border-collapse: collapse;
-      position: middle;
-      width: 75%;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    #booking td, #booking th {
-      border: 1px solid #ddd;
-      padding: 8px;
-    }
-    
-    #booking tr:nth-child(even){background-color: #f2f2f2;}
-    
-    #booking tr:hover {background-color: #ddd;}
-    
-    #booking th {
-      padding-top: 12px;
-      padding-bottom: 12px;
-      text-align: left;
-      background-color: #14608b;
-      color: white;
-    }
+#standard td, #standard th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
 
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.7);
-    }
-    
-    .modal-content {
-      background-color: #fefefe;
-      margin: 10% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-    }
-    
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 28px;
-      font-weight: bold;
-    }
-    
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-  
+#standard tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#standard tr:hover {
+  background-color: #ddd;
+}
+
+#standard th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #14608b;
+  color: white;
+}
+
+
+/* Add a container for the forms */
+.forms-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px; /* Adjust as needed */
+}
+
+/* Style each form container */
+.form-container {
+  flex: 1;
+  margin-right: 20px; /* Adjust as needed for spacing between forms */
+}
+
+/* Clearfix to ensure proper wrapping */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+

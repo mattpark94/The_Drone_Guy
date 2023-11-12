@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Booking Management</title>
-    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Booking Management</title>
+        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    </head>
 <body>
     <div>
         <ul>
@@ -24,9 +24,8 @@
 
     <h1>Admin Booking Management Page</h1>
 
-    <h2>Available Bookings</h2>
-
-    <table id="booking">
+    <h2>All Bookings</h2>
+    <table id="standard">
         <tr>
             <th>Booking Id</th>
             <th>Date</th>
@@ -34,15 +33,14 @@
             <th>Booking Status</th>
             <th>Duration (Hours)</th>
             <th>Booked User Id</th>
-           
             <th>Delete</th>
         </tr>
-
+    
         <% data.forEach(function(row) { %>
             <tr>
                 <td><%= row.booking_id %></td>
-                <td><%= row.booking_date %></td>
-                <td><%= row.booking_time %></td>
+                <td><%= new Intl.DateTimeFormat('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(row.booking_date)) %></td>
+                <td><%= new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }).format(new Date('2023-01-01T' + row.booking_time)) %></td>
                 <td><%= row.booking_status %></td>
                 <td><%= row.booking_duration %></td>
                 <td><%= row.booking_user_id %></td>
@@ -57,60 +55,59 @@
         <% }); %>
     </table>
 
-    <h2>Edit a Booking</h2>
-
-<form action="/admin/edit-booking" method="post">
-    <div class="container">
-        <label for="id"><b>Booking Id</b></label>
-        <input type="number" placeholder="Select the booking Id" name="booking_id" required>
-
-
-        <label for="date"><b>Date</b></label>
-         <input type="date" placeholder="Enter the Date" name="date" required>
-
-        <label for="time"><b>Time</b></label>
-        <input type="time" placeholder="Enter the Start Time" name="time" required>
-           
-        <label for="status"><b>Booking Status</b></label>
-        <select name="booking_status" required>
-            <option value="available">Available</option>
-            <option value="booked">Booked</option>
-            </select>
-
-            <label for="duration"><b>Duration</b></label>
-            <input type="number" placeholder="Enter duration" name="duration" required>
-
-            <button type="submit">Update Booking</button>
+    <div class="forms-container">
+        <div class="form-container">
+            <h2>Edit a Booking</h2>
+            <form action="/admin/edit-booking" method="post">
+                <div class="container">
+                    <label for="id"><b>Booking Id</b></label>
+                    <input type="number" placeholder="Select the booking Id" name="booking_id" required>
+            
+            
+                    <label for="date"><b>Date</b></label>
+                     <input type="date" placeholder="Enter the Date" name="date" required>
+            
+                    <label for="time"><b>Time</b></label>
+                    <input type="time" placeholder="Enter the Start Time" name="time" required>
+                       
+                    <label for="status"><b>Booking Status</b></label>
+                    <select name="booking_status" required>
+                        <option value="available">Available</option>
+                        <option value="booked">Booked</option>
+                        </select>
+            
+                        <label for="duration"><b>Duration</b></label>
+                        <input type="number" placeholder="Enter duration" name="duration" required>
+            
+                        <button type="submit">Update Booking</button>
+                    </div>
+                </form> 
         </div>
-    </form> 
 
-    <h2>Make a New Booking</h2>
-
-    <form action="/admin/admin_book" method="post">
-        <div class="container">
-            <label for="date"><b>Date</b></label>
-            <input type="date" placeholder="Enter the Date" name="date" required>
-
-            <label for="time"><b>Time</b></label>
-            <input type="time" placeholder="Enter the Start Time" name="time" required>
-
-            <!-- Update the name attribute to match the server route -->
-            <label for="status"><b>Booking Status</b></label>
-            <select name="booking_status" required>
-                <option value="available">Available</option>
-                <option value="booked">Booked</option>
-            </select>
-
-            <label for="duration"><b>Duration</b></label>
-            <input type="number" placeholder="Enter duration" name="duration" required>
-
-            <button type="submit">Add Booking</button>
+        <div class="form-container">
+            <h2>Make a New Booking</h2>
+            <form action="/admin/admin_book" method="post">
+                <div class="container">
+                    <label for="date"><b>Date</b></label>
+                    <input type="date" placeholder="Enter the Date" name="date" required>
+        
+                    <label for="time"><b>Time</b></label>
+                    <input type="time" placeholder="Enter the Start Time" name="time" required>
+        
+                    <!-- Update the name attribute to match the server route -->
+                    <label for="status"><b>Booking Status</b></label>
+                    <select name="booking_status" required>
+                        <option value="available">Available</option>
+                        <option value="booked">Booked</option>
+                    </select>
+        
+                    <label for="duration"><b>Duration</b></label>
+                    <input type="number" placeholder="Enter duration" name="duration" required>
+        
+                    <button type="submit">Add Booking</button>
+                </div>
+            </form> 
         </div>
-    </form> 
-
-   
-
-    
-  
+    </div>
 </body>
 </html>

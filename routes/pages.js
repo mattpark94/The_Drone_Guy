@@ -38,7 +38,7 @@ router.post('/register', function(req, res) {
   var user_type = 'user';
 
   // Check if the user with the provided email already exists
-  var checkQuery = `SELECT * FROM drone_users WHERE email = "${email}"`;
+  var checkQuery = `SELECT * FROM drone_users WHERE user_email = "${email}"`;
 
   connection.query(checkQuery, function (err, results) {
       if (err) throw err;
@@ -48,7 +48,7 @@ router.post('/register', function(req, res) {
           res.render('registration_failure', { title: 'Registration Failure', message: 'User with this email already exists.' });
       } else {
           // User does not exist, proceed with registration
-          var sql = `INSERT INTO drone_users (first_name, last_name, email, password, user_type) VALUES ("${first_name}", "${last_name}", "${email}", "${password}", "${user_type}")`;
+          var sql = `INSERT INTO drone_users (user_first_name, user_last_name, user_email, user_password, user_type) VALUES ("${first_name}", "${last_name}", "${email}", "${password}", "${user_type}")`;
           connection.query(sql, function (err, result) {
               if (err) throw err;
               console.log("1 user registered");
@@ -99,5 +99,6 @@ router.get('/logout', (req, res) => {
       res.redirect('/login');
   });
 });
+
 
 module.exports = router;

@@ -127,4 +127,75 @@ router.post('/edit-booking', function (req, res) {
 });
 
 
+// Route to handle deleting users
+router.post('/delete-user', function (req, res) {
+    const userId = req.body.user_id;
+
+    // Delete the booking from the database based on the booking ID
+    connection.query("DELETE FROM drone_users WHERE user_id = ?", [userId], function (err, result) {
+        if (err) {
+            throw err;
+        }
+
+        // Redirect back to the admin_book page
+        res.redirect('/admin/admin_users');
+    });
+});
+
+
+// Route to handle editing users
+router.post('/edit-user', function (req, res) {
+    if (req.session.user && req.session.user.user_type === 'admin') {
+        // User is authenticated and is an admin
+
+        // Retrieve the user data from the form
+        const { user_id, user_first_name, user_last_name, user_email, user_type } = req.body;
+
+        // Construct the SQL query based on the provided values
+        let query = "UPDATE drone_users SET ";
+        const values = [];
+
+        // Check each field and add it to the query if a value is provided
+        if (user_first_name) {
+            query += "user_first_name=?, ";
+            values.push(user_first_name);
+        }
+
+        if (user_last_name) {
+            query += "user_last_name=?, ";
+            values.push(user_last_name);
+        }
+
+        if (user_email) {
+            query += "user_email=?, ";
+            values.push(user_email);
+        }
+
+        if (user_type) {
+            query += "user_type=?, ";
+            values.push(user_type);
+        }
+
+        // Remove the trailing comma and add the WHERE clause
+        query = query.slice(0, -2); // Remove last 2 characters (comma and space)
+        query += " WHERE user_id=?"; // Assuming user_id is the primary key
+
+        // Add the user_id to the values array
+        values.push(user_id);
+
+        // Update the user in the database
+        connection.query(query, values, function (err, result) {
+            if (err) {
+                throw err;
+            } else {
+                // Redirect to the admin_users page to show the updated list of users
+                res.redirect('/admin/admin_users');
+            }
+        });
+    } else {
+        // Handle unauthorized access
+        res.redirect('/login');
+    }
+});
+
 module.exports = router;
