@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const connection = require('../drone_dbConfig'); // Import your database connection
+const bcrypt = require('bcrypt');
 
 // Standard Pages 
  router.get('/', function(req, res, next) {
@@ -30,66 +31,92 @@ router.get('/register', function(req, res, next) {
 
 
 // Push Register form to Database 
-router.post('/register', function(req, res) {
+router.post('/register', async function(req, res) {
   var first_name = req.body.first_name;
   var last_name = req.body.last_name;
   var email = req.body.email;
-  var password = req.body.password;
+  var plainPassword = req.body.password; 
   var user_type = 'user';
 
-  // Check if the user with the provided email already exists
-  var checkQuery = `SELECT * FROM drone_users WHERE user_email = "${email}"`;
+  try {
+    // Check if the user with the provided email already exists
+    var checkQuery = `SELECT * FROM drone_users WHERE user_email = "${email}"`;
+    const results = await connection.query(checkQuery);
 
-  connection.query(checkQuery, function (err, results) {
+    if (results.length > 0) {
+      // User with the same email already exists
+      console.log("User with this email already exists.");
+      return res.render('registration_failure', { title: 'Registration Failure', message: 'User with this email already exists.' });
+    }
+
+    // Hash the password before storing it in the database
+    const hashedPassword = await bcrypt.hash(plainPassword, 10);
+
+    // User does not exist, proceed with registration
+    var sql = `INSERT INTO drone_users (user_first_name, user_last_name, user_email, user_password, user_type) VALUES (?, ?, ?, ?, ?)`;
+    await connection.query(sql, [first_name, last_name, email, hashedPassword, user_type]);
+
+    console.log("1 user registered");
+    console.log("Email", email);
+    console.log("Password", plainPassword);
+    console.log("Hashed Password", hashedPassword );
+
+    // Render the registration success message
+    res.render('registration_success', { title: 'Registration Success' });
+  } catch (error) {
+    console.error("Error during registration:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// Login to the website with the hashed password
+router.post('/login', function (req, res) {
+  var email = req.body.email;
+  var password = req.body.psw;
+  console.log("Login route accessed.");
+
+  // Check the database to find the user by email
+  var checkQuery = `SELECT * FROM drone_users WHERE user_email = ?`; 
+  connection.query(checkQuery, [email], async function (err, results) {
       if (err) throw err;
-      if (results.length > 0) {
-          // User with the same email already exists
-          console.log("User with this email already exists.");
-          res.render('registration_failure', { title: 'Registration Failure', message: 'User with this email already exists.' });
-      } else {
-          // User does not exist, proceed with registration
-          var sql = `INSERT INTO drone_users (user_first_name, user_last_name, user_email, user_password, user_type) VALUES ("${first_name}", "${last_name}", "${email}", "${password}", "${user_type}")`;
-          connection.query(sql, function (err, result) {
-              if (err) throw err;
-              console.log("1 user registered");
+    
+      console.log("Email:", email);
+      console.log("Entered Password:", password);
 
-              // Render the registration success message
-              res.render('registration_success', { title: 'Registration Success' });
-          });
+      if (results.length > 0) {
+          const user = results[0];
+          const hashedPassword = user.user_password;
+
+      console.log("Hashed Password", hashedPassword)
+
+          // Compare the entered password with the hashed password from the database
+          const passwordMatch = await bcrypt.compare(password, hashedPassword);
+
+          if (passwordMatch) {
+              // Passwords match, user is authenticated
+              req.session.user = user;
+
+              if (user.user_type === 'admin') {
+                  // Admin is authenticated
+                  res.redirect('/admin/admin_landing');
+              } else if (user.user_type === 'user') {
+                  // Regular user is authenticated
+                  res.redirect('/user/user_landing');
+              } else {
+                  // Invalid user type; you can render an error message on the login page
+                  res.render('login_failure', { title: 'Login_failure', error: 'Invalid user type' });
+              }
+          } else {
+              // Passwords don't match; render an error message on the login page
+              res.render('login_failure', { title: 'Login_failure', error: 'Invalid credentials' });
+          }
+      } else {
+          // No user found with the provided email; render an error message on the login page
+          res.render('login_failure', { title: 'Login_failure', error: 'Invalid credentials' });
       }
   });
 });
 
-
-router.post('/login', function (req, res) {
-    var email = req.body.email;
-    var password = req.body.psw;
-  
-    // Check the database to check if the user exists and that email and password match.
-    var checkQuery = `SELECT * FROM drone_users WHERE user_email = ? AND user_password = ?`; // Updated column names
-    connection.query(checkQuery, [email, password], function (err, results) {
-        if (err) throw err;
-  
-        if (results.length > 0) {
-            const user = results[0];
-            req.session.user = user;
-  
-            if (user.user_type === 'admin') {
-                // Admin is authenticated
-                res.redirect('/admin/admin_landing');
-            } else if (user.user_type === 'user') {
-                // Regular user is authenticated
-                res.redirect('/user/user_landing');
-            } else {
-                // Invalid user type; you can render an error message on the login page
-                res.render('login_failure', { title: 'Login_failure', error: 'Invalid user type' });
-            }
-        } else {
-            // Authentication failed; you can render an error message on the login page
-            res.render('login_failure', { title: 'Login_failure', error: 'Invalid credentials' });
-        }
-    });
-  });
 
 router.get('/logout', (req, res) => {
   req.session.destroy((err) => {

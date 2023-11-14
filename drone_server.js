@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const mysql = require('mysql'); 
+const bcrypt = require('bcrypt');
 const connection = require('./drone_dbConfig');
 const app = express();
 

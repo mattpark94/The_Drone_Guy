@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const connection = require('../drone_dbConfig');
+const bcrypt = require('bcrypt');
 
 // Landing page for users
 router.get('/user_landing', function (req, res) {
@@ -73,7 +74,7 @@ router.post('/book_drone', function (req, res) {
 });
 
 // Route to handle editing users
-router.post('/edit-user', function (req, res) {
+router.post('/edit-user', async function (req, res) {
   if (req.session.user && req.session.user.user_type === 'user') {
     // User is authenticated and is a user
 
@@ -102,32 +103,33 @@ router.post('/edit-user', function (req, res) {
     }
 
     if (user_password) {
-      // Assuming user_password is hashed before storing in the database
+      const hashedPassword = await bcrypt.hash(user_password, 10);
       query += "user_password=?, ";
-      values.push(user_password);
+      values.push(hashedPassword);
     }
 
     // Remove the trailing comma and add the WHERE clause
     query = query.slice(0, -2); // Remove last 2 characters (comma and space)
-    query += " WHERE user_id=?"; // Assuming user_id is the primary key
+    query += " WHERE user_id=?"; 
 
     // Add the user_id to the values array
     values.push(user_id);
 
-   // Update the user in the database
+    // Update the user in the database
     connection.query(query, values, function (err, result) {
-    if (err) {
-    throw err;
-     } else {
-    // Redirect to the user landing page to show the updated user details
-    res.redirect('/user/user_landing');
-  }
-});
+      if (err) {
+        throw err;
+      } else {
+        // Redirect to the user landing page to show the updated user details
+        res.redirect('/user/user_landing');
+      }
+    });
   } else {
     // Handle unauthorized access
     res.redirect('/login');
   }
 });
+
 
 // Route to handle deleting bookings
 router.post('/cancel-booking', function (req, res) {
