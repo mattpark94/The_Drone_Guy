@@ -14,7 +14,7 @@
             <li><a href="/about">About</a></li>
             <li><a href="/services">Services</a></li>
             <li><a href="/contact">Contact</a></li>
-            <li style="float:right"><a href="/logout">Logout</a></li>
+            <li id="logout" style="float:right"><a href="/logout">Logout</a></li>
             <li style="float:right"><a href="/user/user_book">Book</a></li>
             <li style="float:right"><a class="active" href="/user/user_landing">Profile</a></li>
         </ul>
@@ -23,29 +23,6 @@
     <div class="header"></div>
 
     <h1>User Landing Page</h1>
-
-    <h2>Your Bookings</h2>
-    <table id="standard">
-        <tr>
-            <th>Booking Id</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Cancel</th>
-        </tr>
-        <% data.forEach(function(row) { %>
-            <tr>
-                <td><%= row.booking_id %></td>
-                <td><%= new Intl.DateTimeFormat('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(row.booking_date)) %></td>
-                <td><%= new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }).format(new Date('2023-01-01T' + row.booking_time)) %></td>
-                <td>
-                    <form action="/user/cancel-booking" method="post">
-                        <input type="hidden" name="booking_id" value="<%= row.booking_id %>">
-                        <button class="delete-button" data-booking-id="<%= row.booking_id %>">Cancel</button>
-                    </form>                
-                </td>
-            </tr>
-        <% }); %>
-    </table>
 
     
     <h2>Your Details</h2>

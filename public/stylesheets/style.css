@@ -50,6 +50,11 @@ li a {
     text-decoration: none;
 }
 
+/* this is not working */ 
+li#logout {
+  margin-left: 50px;
+}
+
 /* Body Style*/ 
 
 h1 {
@@ -232,5 +237,4 @@ form {
   clear: both;
   display: table;
 }
-
 

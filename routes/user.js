@@ -3,7 +3,11 @@ const router = express.Router();
 const connection = require('../drone_dbConfig');
 const bcrypt = require('bcrypt');
 
-// Landing page for users
+
+
+
+//// Landing page Below 
+
 router.get('/user_landing', function (req, res) {
   if (req.session.user && req.session.user.user_type === 'user') {
     // Retrieve user data from the drone_users table
@@ -11,60 +15,15 @@ router.get('/user_landing', function (req, res) {
       'SELECT * FROM drone_users WHERE user_id = ?',
       [req.session.user.user_id],
       function (err, userData) {
-        if (err) throw err;
-
-        // Retrieve booking data for the user
-        connection.query(
-          'SELECT * FROM drone_booking WHERE booking_user_id = ?',
-          [req.session.user.user_id],
-          function (err, bookingData) {
-            if (err) throw err;
-
-            res.render('user/user_landing', {
-              title: 'User Landing Page',
-              user: userData[0],
-              data: bookingData
-            });
-          }
-        );
-      }
-    );
-  } else {
-    // Handle unauthorized access
-    res.redirect('/login');
-  }
-});
-
-
-// Import available bookings data into a table
-router.get('/user_book', function (req, res) {
-  if (req.session.user && req.session.user.user_type === 'user') {
-    // Retrieve available booking data from the database
-    connection.query('SELECT * FROM drone_booking WHERE booking_status = ?', ['available'], function (err, data) {
-      if (err) throw err;
-
-      res.render('user/user_book', { title: 'User Booking Page', data: data, user: req.session.user });
-    });
-  } else {
-    // Handle unauthorized access
-    res.redirect('/login');
-  }
-});
-
-router.post('/book_drone', function (req, res) {
-  if (req.session.user && req.session.user.user_type === 'user') {
-    // Get the booking details from the request
-    const { booking_id } = req.body;
-
-    // Update the booking details in the drone_booking table
-    connection.query(
-      'UPDATE drone_booking SET booking_user_id = ?, booking_status = ? WHERE booking_id = ?',
-      [req.session.user.user_id, 'booked', booking_id],
-      function (err, result) {
         if (err) {
           throw err;
+        } else {
+          // Send the retrieved user data as a response
+          res.render('user/user_landing', {
+            title: 'User Landing Page',
+            user: userData[0], // Assuming a single user is expected from the query
+          });
         }
-        res.redirect('/user/user_landing');
       }
     );
   } else {
@@ -131,18 +90,79 @@ router.post('/edit-user', async function (req, res) {
 });
 
 
+//// User Booking Page Below 
+
+// Import available bookings data into a table
+router.get('/user_book', function (req, res) {
+  if (req.session.user && req.session.user.user_type === 'user') {
+    // Retrieve user's bookings
+    connection.query(
+      'SELECT * FROM drone_booking WHERE booking_user_id = ?',
+      [req.session.user.user_id],
+      function (err, userBookings) {
+        if (err) throw err;
+
+        // Retrieve available bookings (not booked by the user)
+        connection.query(
+          'SELECT * FROM drone_booking WHERE booking_status = ?',
+          ['available'],
+          function (err, availableBookings) {
+            if (err) throw err;
+
+            res.render('user/user_book', {
+              title: 'User Booking Page',
+              user: req.session.user,
+              userBookings: userBookings,
+              availableBookings: availableBookings,
+            });
+          }
+        );
+      }
+    );
+  } else {
+    // Handle unauthorized access
+    res.redirect('/login');
+  }
+});
+
+
+router.post('/book_drone', function (req, res) {
+  if (req.session.user && req.session.user.user_type === 'user') {
+    // Get the booking details from the request
+    const { booking_id } = req.body;
+
+    // Update the booking details in the drone_booking table
+    connection.query(
+      'UPDATE drone_booking SET booking_user_id = ?, booking_status = ? WHERE booking_id = ?',
+      [req.session.user.user_id, 'booked', booking_id],
+      function (err, result) {
+        if (err) {
+          throw err;
+        }
+        res.redirect('/user/user_book');
+      }
+    );
+  } else {
+    // Handle unauthorized access
+    res.redirect('/login');
+  }
+});
+
+
+
+
 // Route to handle deleting bookings
 router.post('/cancel-booking', function (req, res) {
   const bookingId = req.body.booking_id;
 
   // Cancel the booking for the user
-  connection.query("UPDATE drone_booking SET booking_status=?, booking_user_id=? WHERE booking_id = ?", ["available", "0", bookingId], function (err, result) {
+  connection.query("UPDATE drone_booking SET booking_status=?, booking_user_id=? WHERE booking_id = ?", ["available", "1", bookingId], function (err, result) {
       if (err) {
           throw err;
       }
 
       // Redirect back to the admin_book page
-      res.redirect('/user/user_landing');
+      res.redirect('/user/user_book');
   });
 });
 

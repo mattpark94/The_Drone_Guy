@@ -7,41 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Learn about The Drone Guy and our services.">
 
-    <style>
-        ul-1 {
-    list-style-type: none;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    overflow: hidden; 
-    margin:auto
-}
-      
-li {
-    float: left;
-}
-
-li a:hover {
-    background-color: #555;
-    color: lightblue;
-  }
-
-.active {
-    background-color: white;
-    background-color: #555;
-  }
-      
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-
-    </style>
-
 </head>
 <body>
     <div>
@@ -50,12 +15,10 @@ li a {
             <li><a href="/about">About</a></li>
             <li><a href="/services">Services</a></li>
             <li><a href="/contact">Contact</a></li>
-            <li style="float:right"><a href="/logout">Logout</a></li>
+            <li id="logout" style="float:right"><a href="/logout">Logout</a></li>
+            <li style="float:right"><a class="active" href="/admin/admin_landing">Admin Profile</a></li>
             <li style="float:right"><a href="/admin/admin_book">Admin Book</a></li>
-            <li style="float:right"><a class = "active" href="/admin_landing">Admin Profile</a></li>
             <li style="float:right"><a href="/admin/admin_users">Admin Users</a></li>
-
-
         </ul>
     </div>
 
@@ -67,7 +30,7 @@ li a {
     <p>Welcome to the Admin Book page! Here, you can manage all bookings in the system.</p>
 
     <!-- Functions -->
-    <ul>
+    <ul-1>
         <li>View All Bookings - Easily navigate through a comprehensive list of all bookings in the system.</li>
         <li>Edit Bookings - Make changes to a booking seamlessly to ensure accurate information.</li>
         <li>Delete Bookings - Remove outdated or canceled reservations effortlessly.</li>
@@ -80,7 +43,7 @@ li a {
     <h2>Admin Users</h2>
     <p>Welcome to the Admin Users page! This is your central hub for managing all user-related activities within the system.</p>
 
-    <ul>
+    <ul-1>
         <li>View All Users - Access a comprehensive list of all users in the system.</li>
         <li>Edit Details - Update user information to ensure accuracy and relevance.</li>
         <li>Delete Users - Manage user accounts effortlessly.</li>

@@ -39,8 +39,15 @@ router.get('/admin_book', function (req, res) {
     if (req.session.user && req.session.user.user_type === 'admin') {
         // User is authenticated and is an admin
 
-        // Retrieve booking data from the database
-        connection.query("SELECT * FROM drone_booking", function (err, data) {
+        // Retrieve booking data with user IDs from the database using SQL JOIN
+        const query = `
+            SELECT b.booking_id, b.booking_date, b.booking_time, b.booking_status, b.booking_duration,
+                b.booking_user_id, u.user_first_name, u.user_last_name
+            FROM drone_booking b
+            INNER JOIN drone_users u ON b.booking_user_id = u.user_id
+        `;
+
+        connection.query(query, function (err, data) {
             if (err) {
                 throw err;
             }
@@ -53,6 +60,8 @@ router.get('/admin_book', function (req, res) {
     }
 });
 
+
+
 // Admin adding bookings
 router.post('/admin_book', function (req, res) {
     if (req.session.user && req.session.user.user_type === 'admin') {
@@ -61,11 +70,12 @@ router.post('/admin_book', function (req, res) {
         // Retrieve the booking data from the form
         const { date, time, duration } = req.body;
         const bookingStatus = 'available'; // Set the booking status to 'available'
+        const book_user_id = "1"
 
         // Insert the new booking into the database with 'available' status
         connection.query(
-            "INSERT INTO drone_booking (booking_date, booking_time, booking_duration, booking_status) VALUES (?, ?, ?, ?)",
-            [date, time, duration, bookingStatus],
+            "INSERT INTO drone_booking (booking_date, booking_time, booking_duration, booking_status, booking_user_id) VALUES (?, ?, ?, ?, ?)",
+            [date, time, duration, bookingStatus, book_user_id],
             function (err, result) {
                 if (err) {
                     throw err;
@@ -197,5 +207,9 @@ router.post('/edit-user', function (req, res) {
         res.redirect('/login');
     }
 });
+
+
+
+
 
 module.exports = router;
