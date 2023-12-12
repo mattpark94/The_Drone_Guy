@@ -19,9 +19,12 @@
         </ul>
     </div>
 
-    <div class="header"></div>
+    <div class="header">
+        <h1>Users Page</h1>
+
+    </div>
     
-    <h1>Users Page</h1>
+   <h2>User Table</h2>
     
     <table id = "standard">
 		<tr>
@@ -30,7 +33,6 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>User Type</th>
-            <th>Edit</th>
             <th>Delete</th>
         </tr>
         
@@ -41,7 +43,6 @@
                 <td><%= row.user_last_name %></td>
                 <td><%= row.user_email %></td>
                 <td><%= row.user_type %></td>
-                <td>placeholder</td>
                 <td>
                     <% if (row.user_type !== 'admin') { %>
                         <form action="/admin/delete-user" method="post">

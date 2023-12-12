@@ -9,8 +9,9 @@
 /* Nav Bar Style*/ 
 
 .header {
+    position: relative;
+    text-align: center;  
     background-image: url('../images/drone_1.jpg');
-    text-align: center;
     background-size: 100% auto;
     background-repeat: no-repeat;
     background-attachment: fixed; 
@@ -50,33 +51,96 @@ li a {
     text-decoration: none;
 }
 
-/* this is not working */ 
+
 li#logout {
   margin-left: 50px;
 }
 
 /* Body Style*/ 
+body {
+  text-align: center; /* Center align all text within the body */
+}
+
+h2, p {
+  color: rgb(0, 0, 0);
+  text-align: center; /* Center align specific header and paragraph elements */
+}
 
 h1 {
-    color: rgb(71, 130, 165);
-
+  color: white; 
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3em; /* Adjust the font size as needed */
+  text-shadow: 2px 2px 4px rgb(0, 0, 0); /* Optional: Add a shadow for better contrast */
+  z-index: 1; /* Ensure the text is on top of the image */
 }
 
-h2 {
-    color: rgb(71, 130, 165);
+/* Additional styles for the introduction section */
+.intro {
+  padding: 15px 0; /* Adjust as needed */
+  background-color: #f7f7f7; /* Optional: Add a background color */
+  text-align: center;
 }
 
-P {
-    color: rgb(71, 130, 165);
+.intro h2 {
+  color: black; /* Adjust the color as needed */
+  margin-bottom: 20px; /* Adjust the margin as needed */
 }
 
+/* Additional styles for the content section */
+.content {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start; /* Align content at the top */
+  padding: 50px 0; /* Adjust as needed */
+  background-color: #f7f7f7; /* Optional: Add a background color */
+}
 
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 45%;
+}
 
-/* form CSS 
+.section img {
+  width: 60%; /* Adjust image width as needed */
+  margin-bottom: 20px; /* Adjust spacing between image and text */
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 768px) {
+  .content {
+      flex-direction: column;
+      text-align: center;
+  }
+
+  .section {
+      width: 100%;
+  }
+
+  .section img {
+      width: 60%;
+  }
+}
+
+.ul-1 {
+  text-align: left; /* To reset text alignment */
+  margin: 0 auto; /* Center the list horizontally */
+  width: 75%; /* Adjust the width as needed */
+}
+
+/* form CSS */
 
 form {
     border: 3px solid #f1f1f1;
   }
+
+  
   
   /* Full-width inputs */
   input[type=text], input[type=password] {
